@@ -6,7 +6,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - slurm-data/slurm-maria-db:/var/lib/mysql
+      - /data/slurm-maria-db:/var/lib/mysql
     environment:
       - MARIADB_USER=slurm
       - MARIADB_PASSWORD=slurm
