@@ -3,8 +3,9 @@ services:
     image: mariadb:10.10
     hostname: mariadb
     container_name: mariadb
+    network_mode: host
     ports:
-      - 3306:3306
+      - 13306:3306
     volumes:
       - ./data/slurm-maria-db:/var/lib/mysql
     environment:
@@ -16,27 +17,30 @@ services:
     image: slurm-dbd:latest
     hostname: slurmdbd
     user: slurm
+    network_mode: host
     volumes:
-      - shared-vol:/home/slurm
-    ports:
-      - 7031:7031
-    links:
-      - mariadb
+      - /mnt/workspace:/home/slurm
+#    ports:
+#      - 17031:7031
+#    depends:
+#      - mariadb
   slurmmaster:
     image: slurm-master:latest
     hostname: slurmmaster
     user: admin
+    network_mode: host
     volumes:
-      - shared-vol:/home/admin
-    ports:
-      - 6817:6817
-      - 6819:6819      
-    links:
-      - slurmdbd
+      - /mnt/workspace:/home/admin
+#    ports:
+#      - 16817:6817
+#      - 16819:6819      
+#    depends:
+#      - slurmdbd
   slurmnode1:
     image: slurm-node:latest
     hostname: slurmnode1
     user: admin
+    network_mode: host
     deploy:
       resources:
         reservations:
@@ -45,11 +49,11 @@ services:
               count: 1
               capabilities: [gpu]    
     volumes:
-      - shared-vol:/home/admin
-    ports:
-      - 6818:6818
-    links:
-      - slurmmaster
+      - /mnt/workspace:/home/admin
+ #   ports:
+ #     - 16818:6818
+ #   depends:
+ #     - slurmmaster
   # slurmnode2:
   #   image: slurm-node:latest
   #   hostname: slurmnode2
@@ -62,7 +66,7 @@ services:
   #             count: 1
   #             capabilities: [gpu]        
   #   volumes:
-  #     - shared-vol:/home/admin
+  #     - shared.vol:/home/admin
   #   links:
   #     - slurmmaster
   # slurmnode3:
@@ -77,13 +81,14 @@ services:
   #             count: 1
   #             capabilities: [gpu]            
   #   volumes:
-  #     - shared-vol:/home/admin
+  #     - shared.vol:/home/admin
   #   links:
   #     - slurmmaster
   slurmjupyter:
     image: slurm-jupyter:latest
     hostname: slurmjupyter
     user: admin
+    network_mode: host
     deploy:
       resources:
         reservations:
@@ -92,10 +97,15 @@ services:
               count: 1
               capabilities: [gpu]        
     volumes:
-      - shared-vol:/home/admin
-    ports:
-      - 8888:8888
-    links:
-      - slurmmaster
+      - /mnt/workspace:/home/admin
+#    ports: 
+#      - 18888:8888
+#    depends:
+#      - slurmmaster
 volumes:
-  shared-vol:
+  shared.vol:
+
+networks:
+  host:
+    name: host
+    external: true
