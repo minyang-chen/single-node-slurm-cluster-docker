@@ -1,0 +1,71 @@
+services:
+  mariadb:
+        image: mariadb:10.10
+        hostname: mariadb
+        container_name: mariadb
+        ports:
+            - 3306:3306
+        volumes:
+            - /data/slurm-maria-db:/var/lib/mysql
+        environment:
+            - MARIADB_USER=slurm
+            - MARIADB_PASSWORD=slurmslurm
+            - MARIADB_ROOT_PASSWORD=dbroot-password
+            - MARIADB_DATABASE=slurm
+
+  slurmmaster:
+        image: slurm-master:latest
+        hostname: slurmmaster
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        ports:
+                - 6817:6817
+                - 6818:6818
+                - 6819:6819
+  slurmdbd:
+        image: slurm-dbd:latest
+        hostname: slurmdbd
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        ports:
+                - 7000:7000
+        links:
+                - mariadb
+
+  slurmjupyter:
+        image: slurm-jupyter:latest
+        hostname: slurmjupyter
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        ports:
+                - 8888:8888
+
+  slurmnode1:
+        image: slurm-node:latest
+        hostname: slurmnode1
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        links:
+                - slurmmaster
+  slurmnode2:
+        image: slurm-node:latest
+        hostname: slurmnode2
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        links:
+                - slurmmaster
+  slurmnode3:
+        image: slurm-node:latest
+        hostname: slurmnode3
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        links:
+                - slurmmaster
+volumes:
+        shared-vol:

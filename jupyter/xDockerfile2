@@ -1,0 +1,39 @@
+FROM ubuntu:20.04
+#FROM nvidia/cuda:11.0.3-base-ubuntu20.04
+
+RUN apt update -y && apt install munge -y && apt install vim -y && apt install build-essential -y && apt install git -y && apt-get install mariadb-server -y && apt install wget -y && apt install iputils-ping -y && apt install net-tools -y 
+
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt install slurm-client -y
+RUN apt install curl dirmngr apt-transport-https lsb-release ca-certificates -y
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt install sudo -y && apt install python3.9 python3-pip -y 
+
+# Make Python3 available as `python`
+# Also ensure that pip points to pip3
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+RUN useradd -m admin -s /usr/bin/bash -d /home/admin && echo "admin:admin" | chpasswd && adduser admin sudo && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+RUN apt update -y && apt install nodejs -y && npm install -g configurable-http-proxy && pip3 install jupyterlab==4.2.1 
+
+COPY slurm.conf /etc/slurm-llnl/
+COPY cgroup.conf /etc/slurm-llnl/
+COPY docker-entrypoint.sh /etc/slurm-llnl/
+
+#COPY jobs/job.sh  /home/admin/
+#COPY jobs/test.py /home/admin/
+
+WORKDIR /home/admin
+
+EXPOSE 8888
+
+ENV USER admin
+ENV SHELL bash
+
+RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y
+RUN curl -sLf https://spacevim.org/install.sh | bash
+
+RUN apt update -y && apt install libopenmpi-dev -y && pip3 install mpi4py && pip3 install jupyterlab_slurm
+
+ENTRYPOINT ["/etc/slurm-llnl/docker-entrypoint.sh"]

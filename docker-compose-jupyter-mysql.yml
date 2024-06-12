@@ -1,0 +1,58 @@
+services:
+  mysql:
+    image: mariadb:10.10
+    hostname: mysql
+    container_name: mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: slurm_acct_db
+      MYSQL_USER: slurm
+      MYSQL_PASSWORD: password
+    volumes:
+      - var_lib_mysql:/var/lib/mysql
+
+  slurmjupyter:
+        image: slurm-jupyter:latest
+        hostname: slurmjupyter
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        ports:
+                - 8888:8888
+  slurmmaster:
+        image: slurm-master:latest
+        hostname: slurmmaster
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        ports:
+                - 6817:6817
+                - 6818:6818
+                - 6819:6819
+  slurmnode1:
+        image: slurm-node:19.05.5-1
+        hostname: slurmnode1
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        links:
+                - slurmmaster
+  slurmnode2:
+        image: slurm-node:latest
+        hostname: slurmnode2
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        links:
+                - slurmmaster
+  slurmnode3:
+        image: slurm-node:latest
+        hostname: slurmnode3
+        user: admin
+        volumes:
+                - shared-vol:/home/admin
+        links:
+                - slurmmaster
+volumes:
+        shared-vol:
+
