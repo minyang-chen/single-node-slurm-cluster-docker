@@ -1,4 +1,4 @@
-# single-node-slurm-cluster-docker
+# single-node-slurm-cluster-docker (ubuntu 20.04)
 dockerized single-node slurm cluster 
 
 ## multi-node slurm cluster docker
