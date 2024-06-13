@@ -17,7 +17,7 @@ services:
     hostname: slurmdbd
     user: slurm
     volumes:
-      - slurm-shared:/home/slurm
+      - /mnt/workspace:/home/slurm
     ports:
       - 7031:7031
     links:
@@ -27,7 +27,7 @@ services:
     hostname: slurmmaster
     user: admin
     volumes:
-      - slurm-shared:/home/admin
+      - /mnt/workspace:/home/admin
     ports:
       - 6817:6817
       - 6819:6819
@@ -45,7 +45,7 @@ services:
               count: 1
               capabilities: [ gpu ]
     volumes:
-      - slurm-shared:/home/admin
+      - /mnt/workspace:/home/admin
     ports:
       - 6818:6818
     links:
@@ -62,9 +62,24 @@ services:
               count: 1
               capabilities: [ gpu ]
     volumes:
-      - slurm-shared:/home/admin
+      - /mnt/workspace:/home/admin
     links:
       - slurmmaster
+  slurmnode3:
+    image: slurm-node:latest
+    hostname: slurmnode3
+    user: admin
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+    volumes:
+      - /mnt/workspace:/home/admin
+    links:
+      - slurmmaster      
   slurmjupyter:
     image: slurm-jupyter:latest
     hostname: slurmjupyter
@@ -77,7 +92,7 @@ services:
               count: 1
               capabilities: [ gpu ]
     volumes:
-      - slurm-shared:/home/admin
+      - /mnt/workspace:/home/admin
     ports:
       - 8888:8888
     links:

@@ -1,0 +1,6 @@
+1. start NFS server
+2. install nfs client 
+3. create local mount
+4. update docke-compose volume
+5. launch container
+

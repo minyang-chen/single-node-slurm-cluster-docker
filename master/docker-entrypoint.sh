@@ -2,13 +2,17 @@
 
 #sudo sed -i "s/REPLACE_IT/CPUs=$(nproc)/g" /etc/slurm-llnl/slurm.conf
 
+echo "---> Authentication ..."
 sudo service munge start
+
+echo "---> Slurm Controller..."
 sudo service slurmctld start
 
-sleep 5
+echo "---> Check environment modules ..."
+source /etc/profile.d/lmod.sh 
+module --version && module avail
 
-source /etc/profile.d/lmod.sh
-module
+sleep 5
 
 ## Init slurm acct database
 #IS_DATABASE_EXIST='0'
@@ -18,6 +22,7 @@ module
 #    sleep 5
 #done
 
+echo "---> restart Slurm Controller..."
 sudo service slurmctld restart
 
 tail -f /dev/null
