@@ -3,8 +3,12 @@
 echo "---> Authentication ..."
 sudo service munge restart
 
+#spack
+source /opt/spack/share/spack/setup-env.sh
+spack --version
+
 echo "---> Check environment modules ..."
-source /etc/profile.d/lmod.sh 
+source /etc/profile.d/lmod.sh
 module --version && module avail
 
 echo "---> Jupyterlab ..."

@@ -1,4 +1,5 @@
-FROM nvidia/cuda:11.0.3-base-ubuntu20.04
+FROM docker.io/nvidia/cuda:11.0.3-base-ubuntu20.04
+#FROM nvidia/cuda:11.0.3-base-ubuntu20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
