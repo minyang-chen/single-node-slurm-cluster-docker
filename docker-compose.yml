@@ -6,7 +6,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - /data/slurm-maria-db:/var/lib/mysql
+      - slurm-mariadb:/var/lib/mysql
     environment:
       - MARIADB_USER=slurm
       - MARIADB_PASSWORD=slurm
@@ -54,13 +54,13 @@ services:
     image: slurm-node:latest
     hostname: slurmnode2
     user: admin
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [ gpu ]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [ gpu ]
     volumes:
       - /mnt/workspace:/home/admin
     links:
@@ -69,13 +69,13 @@ services:
     image: slurm-node:latest
     hostname: slurmnode3
     user: admin
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [ gpu ]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [ gpu ]
     volumes:
       - /mnt/workspace:/home/admin
     links:
@@ -98,4 +98,5 @@ services:
     links:
       - slurmmaster
 volumes:
-  slurm-shared:
+  slurm-workspace:
+  slurm-mariadb:

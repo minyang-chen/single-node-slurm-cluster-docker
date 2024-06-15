@@ -1,3 +1,6 @@
+
+sudo apt install nfs-common -y
+
 echo "create mount point /mnt/workspace/..."
 
 sudo mkdir -p /mnt/workspace
