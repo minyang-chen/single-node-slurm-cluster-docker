@@ -25,7 +25,7 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt update -y && apt install nodejs -y && npm install -g configurable-http-proxy 
 
 ## jupyterlab and slurm extension
-RUN pip3 install jupyterlab==4.2.1 && pip3 install jupyterlab_slurm 
+RUN pip3 install jupyterlab==4.2.2 && pip3 install jupyterlab_slurm && pip3 install jupyterlab_theme_solarized_dark
 
 ## Jupyter Lmod/Tmod Extensions
 # RUN pip install jupyterlmod && jupyter labextension disable @jupyterlab/server-proxy && jupyter labextension disable jupyterlab-server-proxy
@@ -82,9 +82,10 @@ ENV SHELL bash
 RUN apt install libopenmpi-dev -y && pip3 install mpi4py 
 
 ##RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y
-RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y && apt install htop -y && apt install fish -y
+RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install micro -y && apt install htop -y && apt install fish -y
 
 RUN curl -sLf https://spacevim.org/install.sh | bash
+#RUN curl -sLF https://starship.rs/install.sh | bash
 
 # Spack Installation
 RUN git clone --depth=100 --branch=releases/v0.22 https://github.com/spack/spack.git /opt/spack && cd /opt/spack/bin && ./spack install zlib
