@@ -1,0 +1,6 @@
+
+slurm-templates
+https://www.carc.usc.edu/user-information/user-guides/hpc-basics/slurm-templates
+
+slurm-cheatsheet
+https://www.carc.usc.edu/user-information/user-guides/hpc-basics/slurm-cheatsheet
