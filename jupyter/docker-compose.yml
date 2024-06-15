@@ -1,0 +1,27 @@
+services:
+
+  slurmjupyter:
+    image: slurm-jupyter:latest
+    hostname: slurmjupyter
+    user: admin
+    network_mode: host
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: 1
+#              capabilities: [gpu]        
+    volumes:
+      - /mnt/workspace:/home/admin
+#    ports: 
+#      - 18888:8888
+#    depends:
+#      - slurmmaster
+volumes:
+  shared.vol:
+
+networks:
+  host:
+    name: host
+    external: true

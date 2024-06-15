@@ -1,5 +1,5 @@
-FROM docker.io/nvidia/cuda:11.0.3-base-ubuntu20.04
 #FROM nvidia/cuda:11.0.3-base-ubuntu20.04
+FROM docker.io/nvidia/cuda:11.0.3-base-ubuntu20.04 
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -10,7 +10,6 @@ ENV MODULEPATH_ROOT=/opt/focal/modulefiles
 ENV MODULEPATH=/opt/uw/modulefiles
 
 RUN apt update -y && apt install munge -y && apt install vim -y && apt install build-essential -y && apt install git -y && apt-get install mariadb-server -y && apt install wget -y && apt install nfs-common -y
-
 #SHELL [ "/bin/bash", "-c" ]
 
 RUN apt install slurm-client -y
@@ -25,8 +24,11 @@ RUN useradd -m admin -s /usr/bin/bash -d /home/admin && echo "admin:admin" | chp
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt update -y && apt install nodejs -y && npm install -g configurable-http-proxy 
 
-## jupyterlab
-RUN pip3 install jupyterlab==4.2.1 && pip3 install jupyterlab_slurm
+## jupyterlab and slurm extension
+RUN pip3 install jupyterlab==4.2.1 && pip3 install jupyterlab_slurm 
+
+## Jupyter Lmod/Tmod Extensions
+# RUN pip install jupyterlmod && jupyter labextension disable @jupyterlab/server-proxy && jupyter labextension disable jupyterlab-server-proxy
 
 COPY gres.conf /etc/slurm-llnl/
 COPY slurm.conf /etc/slurm-llnl/
@@ -35,17 +37,24 @@ COPY docker-entrypoint.sh /etc/slurm-llnl/
 
 ## Authentication                                                     
 COPY munge.key /etc/munge/                                               
-RUN chmod 400 /etc/munge/munge.key                                       
-RUN chown munge:munge /etc/munge/munge.key
+RUN sudo chmod 400 /etc/munge/munge.key                                       
+RUN sudo chown munge:munge /etc/munge/munge.key
 
-# install lmod 
+# lmod - environment module
 RUN apt-get install bc unzip lua5.3 liblua5.3-0 liblua5.3-dev lua-filesystem-dev lua-posix-dev -y
 RUN apt-get install tcl tcl8.6-dev libtcl8.6 -y
 RUN ln -s /usr/include/tcl8.6 /usr/include/tcl && ls /usr/bin/lua && ls /usr/include/tcl
 
 RUN cd /tmp && git clone https://github.com/TACC/Lmod.git && cd Lmod && ./configure --prefix=/opt/focal/ && make install
-## RUN source /opt/focal/lmod/lmod/init/profile && module --version
-## RUN source /etc/profile.d/lmod.sh && module --version
+# RUN source /opt/focal/lmod/lmod/init/profile && module --version
+# RUN bash /etc/profile.d/lmod.sh && module --version
+
+# RUN mkdir -p /opt/uw/modulefiles
+# RUN touch /opt/focal/lmod/lmod/init/.modulespath
+# RUN echo "/opt/uw/modulefiles" >> /opt/focal/lmod/lmod/init/.modulespath
+
+# RUN ln -s /opt/focal/lmod/lmod/init/profile /etc/profile.d/lmod.sh
+# RUN ln -s /opt/focal/lmod/lmod/init/cshrc   /etc/profile.d/lmod.csh
 
 ## user environment modules
 RUN mkdir -p /opt/focal/modulefiles
@@ -58,28 +67,27 @@ RUN echo "/opt/spack/share/spack/modules" >> /opt/focal/lmod/lmod/init/.modulesp
 RUN ln -s /opt/focal/lmod/lmod/init/profile /etc/profile.d/lmod.sh
 RUN ln -s /opt/focal/lmod/lmod/init/cshrc   /etc/profile.d/lmod.csh
 
-WORKDIR /home/admin
-
 ## samples
-ADD examples/* /home/admin/examples
-ADD jobs/* /home/admin/jobs
-ADD dataset/* /home/admin/dataset
+# ADD examples/* /home/admin/examples
+# ADD jobs/* /home/admin/jobs
+# ADD dataset/* /home/admin/dataset
+
+WORKDIR /home/admin
 
 EXPOSE 8888
 
 ENV USER admin
 ENV SHELL bash
 
-# mpi
 RUN apt install libopenmpi-dev -y && pip3 install mpi4py 
 
-# Helpful utils
-RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y
+##RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y
+RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y && apt install htop -y && apt install fish -y
+
 RUN curl -sLf https://spacevim.org/install.sh | bash
 
 # Spack Installation
 RUN git clone --depth=100 --branch=releases/v0.22 https://github.com/spack/spack.git /opt/spack && cd /opt/spack/bin && ./spack install zlib
-# Next, add Spack to your path. Spack has some nice command-line integration tools, so instead of simply prepending to your PATH variable, source the Spack setup script.
 
 # # Lmod Installation
 # RUN cd /opt/spack/bin && ./spack install lmod 
@@ -88,7 +96,9 @@ RUN git clone --depth=100 --branch=releases/v0.22 https://github.com/spack/spack
 
 # Miniconda3 Installation
 RUN cd /opt/spack && . share/spack/setup-env.sh && spack list conda && spack install miniconda3 && spack load miniconda3 && conda --version
-#RUN mkdir -p /opt/focal/modulefiles && mkdir -p /opt/uw/modulefiles
+
 RUN export PATH=/opt/spack/bin:$PATH
+
+RUN pip3 install easybuild
 
 ENTRYPOINT ["/etc/slurm-llnl/docker-entrypoint.sh"]

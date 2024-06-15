@@ -2,17 +2,13 @@
 
 #sudo sed -i "s/REPLACE_IT/CPUs=$(nproc)/g" /etc/slurm-llnl/slurm.conf
 
-echo "---> Authentication ..."
 sudo service munge start
-
-echo "---> Slurm Controller..."
 sudo service slurmctld start
 
-echo "---> Check environment modules ..."
-source /etc/profile.d/lmod.sh 
-module --version && module avail
-
 sleep 5
+
+# source /etc/profile.d/lmod.sh
+# module --version
 
 ## Init slurm acct database
 #IS_DATABASE_EXIST='0'
@@ -22,7 +18,22 @@ sleep 5
 #    sleep 5
 #done
 
-echo "---> restart Slurm Controller..."
+#environment check spack
+source /opt/spack/share/spack/setup-env.sh
+spack --version
+
+#environment check easybuild
+eb --version
+eb --show-system-info
+eb --show-config
+
+#environment check lmod
+source /etc/profile.d/lmod.sh
+#source /opt/focal/lmod/lmod/init/bash
+module --version
+module use ~/.local/easybuild/modules/
+module avail
+
 sudo service slurmctld restart
 
 tail -f /dev/null

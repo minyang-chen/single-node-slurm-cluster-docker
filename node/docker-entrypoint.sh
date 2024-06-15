@@ -2,14 +2,23 @@
 
 #sudo sed -i "s/REPLACE_IT/CPUs=$(nproc)/g" /etc/slurm-llnl/slurm.conf
 
-echo "---> Authentication ..."
 sudo service munge start
-
-echo "---> Compute Node ..."
 sudo slurmd -N $(hostname)
 
-echo "---> Check environment modules ..."
-source /etc/profile.d/lmod.sh 
-module --version && module avail
+#environment check spack
+source /opt/spack/share/spack/setup-env.sh
+spack --version
+
+#environment check easybuild
+eb --version
+eb --show-system-info
+eb --show-config
+
+#environment check lmod
+source /etc/profile.d/lmod.sh
+#source /opt/focal/lmod/lmod/init/bash
+module --version
+module use ~/.local/easybuild/modules/
+module avail
 
 tail -f /dev/null
