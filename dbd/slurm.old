@@ -35,6 +35,7 @@ SlurmctldHost=slurmmaster
 ProctrackType=proctrack/cgroup
 TaskPlugin=task/cgroup
 #
+CacheGroups=0
 #ProctrackType=proctrack/cgroup
 #Prolog=
 #PrologFlags=
@@ -106,7 +107,7 @@ SchedulerType=sched/backfill
 #SelectTypeParameters=CR_Core
 #SelectType=select/cons_res
 #SelectTypeParameters=CR_Core_Memory,CR_CORE_DEFAULT_DIST_BLOCK,CR_ONE_TASK_PER_CORE
-FastSchedule=1
+#FastSchedule=1
 #SelectTypeParameters=CR_CPU_Memory
 #
 #
@@ -126,9 +127,9 @@ FastSchedule=1
 #
 #
 # LOGGING 
-SlurmctldDebug=error
+SlurmctldDebug=3
 SlurmctldLogFile=/var/log/slurm-llnl/slurmctld.log
-SlurmdDebug=error
+SlurmdDebug=3
 SlurmdLogFile=/var/log/slurm-llnl/slurmd.log
 JobCompType=jobcomp/none
 #JobCompType=jobcomp/filetxt
@@ -141,6 +142,7 @@ JobCompLoc=/var/log/slurm/jobcomp.log
 AccountingStorageTRES=gres/gpu
 DebugFlags=CPU_Bind,gres                # show detailed information in Slurm logs about GPU binding and affinity
 JobAcctGatherType=jobacct_gather/cgroup
+#JobAcctGatherType=jobacct_gather/linux
 #
 #AccountingStorageEnforce=0
 # BEFORE
