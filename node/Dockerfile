@@ -52,8 +52,7 @@ RUN echo "/opt/spack/share/spack/modules" >> /opt/focal/lmod/lmod/init/.modulesp
 RUN ln -s /opt/focal/lmod/lmod/init/profile /etc/profile.d/lmod.sh
 RUN ln -s /opt/focal/lmod/lmod/init/cshrc   /etc/profile.d/lmod.csh
 
-EXPOSE 6817 6818 6819  
-
+# Openmpi
 RUN apt update -y && apt install libopenmpi-dev -y && pip3 install mpi4py
 RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y && apt install htop -y && apt install fish -y
 
@@ -68,5 +67,10 @@ RUN cd /opt/spack && . share/spack/setup-env.sh && spack list conda && spack ins
 RUN export PATH=/opt/spack/bin:$PATH
 
 RUN pip3 install easybuild
+
+
+EXPOSE 6817 6818 6819
+
+WORKDIR /home/admin
 
 ENTRYPOINT ["/etc/slurm-llnl/docker-entrypoint.sh"]

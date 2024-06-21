@@ -3,6 +3,9 @@
 # sudo chmod 600 /etc/slurm-llnl/slurmdbd.conf
 # sudo chown slurm:slurm /etc/slurm-llnl/slurmdbd.conf
 
+# user home permission
+sudo chown admin:admin -R /home/admin
+
 echo "---> check config files ..."
 ls -all /etc/slurm-llnl/
 

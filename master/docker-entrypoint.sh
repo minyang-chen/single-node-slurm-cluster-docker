@@ -2,6 +2,10 @@
 
 #sudo sed -i "s/REPLACE_IT/CPUs=$(nproc)/g" /etc/slurm-llnl/slurm.conf
 
+# user home permission
+sudo chown admin:admin -R /home/admin
+
+# start services
 sudo service munge start
 sudo service slurmctld start
 

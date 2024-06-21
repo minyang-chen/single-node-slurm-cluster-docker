@@ -3,8 +3,10 @@
 # authentication
 sudo service munge restart
 
-sudo mkdir -p ~/.local
-sudo chown admin:admin -R ~/.local
+# user home permission
+sudo mkdir -p /home/admin/.local
+sudo chown admin:admin -R /home/admin
+sudo cd /home/admin
 
 # shell
 curl -sS https://starship.rs/install.sh | sh
