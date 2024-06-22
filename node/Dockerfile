@@ -16,15 +16,23 @@ RUN apt install slurmd slurm-client -y
 RUN apt install sudo -y && apt install python3.9 python3-pip -y && ln -s /usr/bin/python3 /usr/bin/python
 RUN useradd -m admin -s /usr/bin/bash -d /home/admin && echo "admin:admin" | chpasswd && adduser admin sudo && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-COPY gres.conf /etc/slurm-llnl/
-COPY slurm.conf /etc/slurm-llnl/
-COPY cgroup.conf /etc/slurm-llnl/
-COPY docker-entrypoint.sh /etc/slurm-llnl/
+# configuration
+# COPY gres.conf /etc/slurm-llnl/
+# COPY slurm.conf /etc/slurm-llnl/
+# COPY cgroup.conf /etc/slurm-llnl/
+# COPY docker-entrypoint.sh /etc/slurm-llnl/
 
-# Authentication
-COPY munge.key /etc/munge/
-RUN sudo chmod 400 /etc/munge/munge.key
-RUN sudo chown munge:munge /etc/munge/munge.key
+RUN mkdir -p /etc/slurm-llnl
+RUN chown -R slurm:slurm /etc/slurm-llnl
+
+## Authentication                              
+RUN mkdir -p /etc/munge
+RUN chown -R munge:munge /etc/munge
+
+# # Authentication
+# COPY munge.key /etc/munge/
+# RUN sudo chmod 400 /etc/munge/munge.key
+# RUN sudo chown munge:munge /etc/munge/munge.key
 
 # lmod - environment module
 RUN apt-get install bc unzip lua5.3 liblua5.3-0 liblua5.3-dev lua-filesystem-dev lua-posix-dev -y

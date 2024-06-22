@@ -1,5 +1,8 @@
 #!/bin/bash
 
+sudo chmod 400 /etc/munge/munge.key
+sudo chown munge:munge /etc/munge/munge.key
+
 # authentication
 sudo service munge restart
 

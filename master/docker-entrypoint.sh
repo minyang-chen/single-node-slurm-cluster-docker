@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #sudo sed -i "s/REPLACE_IT/CPUs=$(nproc)/g" /etc/slurm-llnl/slurm.conf
+sudo chmod 400 /etc/munge/munge.key
+sudo chown munge:munge /etc/munge/munge.key
 
 # user home permission
 sudo chown admin:admin -R /home/admin
@@ -8,8 +10,6 @@ sudo chown admin:admin -R /home/admin
 # start services
 sudo service munge start
 sudo service slurmctld start
-
-sleep 5
 
 # source /etc/profile.d/lmod.sh
 # module --version
@@ -38,6 +38,7 @@ module --version
 module use ~/.local/easybuild/modules/
 module avail
 
+sleep 5
 sudo service slurmctld restart
 
 tail -f /dev/null

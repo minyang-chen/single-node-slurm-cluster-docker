@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo chmod 400 /etc/munge/munge.key
+sudo chown munge:munge /etc/munge/munge.key
 #sudo sed -i "s/REPLACE_IT/CPUs=$(nproc)/g" /etc/slurm-llnl/slurm.conf
 
 # user home permission update

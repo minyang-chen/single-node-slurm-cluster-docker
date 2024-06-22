@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# sudo chmod 600 /etc/slurm-llnl/slurmdbd.conf
-# sudo chown slurm:slurm /etc/slurm-llnl/slurmdbd.conf
+## sudo chmod 600 /etc/slurm-llnl/slurmdbd.conf
+## sudo chown slurm:slurm /etc/slurm-llnl/slurmdbd.conf
+sudo chmod 400 /etc/munge/munge.key
+sudo chown munge:munge /etc/munge/munge.key
 
 # user home permission
 sudo chown admin:admin -R /home/admin

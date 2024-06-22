@@ -21,19 +21,25 @@ RUN apt install sudo -y && apt install python3.9 python3-pip -y && ln -s /usr/bi
 RUN useradd -m admin -s /usr/bin/bash -d /home/admin && echo "admin:admin" | chpasswd && adduser admin sudo && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN  echo "slurm:slurm" | chpasswd && adduser slurm sudo && echo "slurm     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers 
 
-COPY gres.conf /etc/slurm-llnl/
-COPY slurm.conf /etc/slurm-llnl/
-COPY slurmdbd.conf /etc/slurm-llnl/
-COPY cgroup.conf /etc/slurm-llnl/
-COPY docker-entrypoint.sh /etc/slurm-llnl/
+# COPY gres.conf /etc/slurm-llnl/
+# COPY slurm.conf /etc/slurm-llnl/
+# COPY slurmdbd.conf /etc/slurm-llnl/
+# COPY cgroup.conf /etc/slurm-llnl/
+# COPY docker-entrypoint.sh /etc/slurm-llnl/
 #RUN touch /var/run/slurmdbd/slurmdbd.pid
+RUN mkdir -p /etc/slurm-llnl
+RUN chown -R slurm:slurm /etc/slurm-llnl
 
-COPY munge.key /etc/munge/
-RUN chmod 400 /etc/munge/munge.key
-RUN chown munge:munge /etc/munge/munge.key
+## Authentication                              
+RUN mkdir -p /etc/munge
+RUN chown -R munge:munge /etc/munge
 
-RUN chmod 600 /etc/slurm-llnl/slurmdbd.conf
-RUN chown slurm:slurm /etc/slurm-llnl/slurmdbd.conf
+#COPY munge.key /etc/munge/
+#RUN chmod 400 /etc/munge/munge.key
+#RUN chown munge:munge /etc/munge/munge.key
+
+#RUN chmod 600 /etc/slurm-llnl/slurmdbd.conf
+#RUN chown slurm:slurm /etc/slurm-llnl/slurmdbd.conf
 
 # RUN apt update -y && apt install libopenmpi-dev -y && pip3 install mpi4py
 

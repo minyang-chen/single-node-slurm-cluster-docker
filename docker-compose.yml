@@ -17,7 +17,13 @@ services:
     hostname: slurmdbd
     user: slurm
     volumes:
-      - /mnt/workspace:/home/slurm
+      - ./workspace:/home/slurm
+      - ./etc/munge/munge.key:/etc/munge/munge.key
+      - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
+      - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
+      - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
+      - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
+      - ./dbd/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                  
     ports:
       - 7031:7031
     links:
@@ -27,7 +33,13 @@ services:
     hostname: slurmmaster
     user: admin
     volumes:
-      - /mnt/workspace:/home/admin
+      - ./workspace:/home/admin
+      - ./etc/munge/munge.key:/etc/munge/munge.key      
+      - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
+      - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
+      - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
+      - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
+      - ./master/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                  
     ports:
       - 6817:6817
       - 6819:6819
@@ -45,7 +57,13 @@ services:
               count: 1
               capabilities: [ gpu ]
     volumes:
-      - /mnt/workspace:/home/admin
+      - ./workspace:/home/admin
+      - ./etc/munge/munge.key:/etc/munge/munge.key      
+      - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
+      - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
+      - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
+      - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
+      - ./node/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                          
     ports:
       - 6818:6818
     links:
@@ -54,30 +72,28 @@ services:
     image: slurm-node:latest
     hostname: slurmnode2
     user: admin
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: 1
-    #           capabilities: [ gpu ]
     volumes:
-      - /mnt/workspace:/home/admin
+      - ./workspace:/home/admin
+      - ./etc/munge/munge.key:/etc/munge/munge.key      
+      - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
+      - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
+      - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
+      - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
+      - ./node/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                                
     links:
       - slurmmaster
   slurmnode3:
     image: slurm-node:latest
     hostname: slurmnode3
     user: admin
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: 1
-    #           capabilities: [ gpu ]
     volumes:
-      - /mnt/workspace:/home/admin
+      - ./workspace:/home/admin
+      - ./etc/munge/munge.key:/etc/munge/munge.key      
+      - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
+      - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
+      - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
+      - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
+      - ./node/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                                
     links:
       - slurmmaster      
   slurmjupyter:
@@ -92,7 +108,13 @@ services:
               count: 1
               capabilities: [ gpu ]
     volumes:
-      - /mnt/workspace:/home/admin
+      - ./workspace:/home/admin 
+      - ./etc/munge/munge.key:/etc/munge/munge.key      
+      - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
+      - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
+      - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
+      - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
+      - ./jupyter/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                                
     ports:
       - 8888:8888
     links:

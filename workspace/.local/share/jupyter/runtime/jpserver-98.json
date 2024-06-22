@@ -1,0 +1,13 @@
+{
+  "base_url": "/",
+  "hostname": "0.0.0.0",
+  "password": true,
+  "pid": 98,
+  "port": 8888,
+  "root_dir": "/home/admin",
+  "secure": false,
+  "sock": "",
+  "token": "",
+  "url": "http://slurmjupyter:8888/",
+  "version": "2.14.1"
+}

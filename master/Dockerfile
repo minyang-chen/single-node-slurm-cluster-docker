@@ -23,15 +23,22 @@ RUN apt update -y && apt install libopenmpi-dev -y && pip3 install mpi4py
 RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y && apt install htop -y && apt install fish -y
 
 # configuration
-COPY gres.conf /etc/slurm-llnl/
-COPY slurm.conf /etc/slurm-llnl/
-COPY cgroup.conf /etc/slurm-llnl/
-COPY docker-entrypoint.sh /etc/slurm-llnl/
+# COPY gres.conf /etc/slurm-llnl/
+# COPY slurm.conf /etc/slurm-llnl/
+# COPY cgroup.conf /etc/slurm-llnl/
+# COPY docker-entrypoint.sh /etc/slurm-llnl/
 
-# Authentication
-COPY munge.key /etc/munge/
-RUN sudo chmod 400 /etc/munge/munge.key
-RUN sudo chown munge:munge /etc/munge/munge.key
+RUN mkdir -p /etc/slurm-llnl
+RUN chown -R slurm:slurm /etc/slurm-llnl
+
+## Authentication                              
+RUN mkdir -p /etc/munge
+RUN chown -R munge:munge /etc/munge
+
+# # Authentication
+# COPY munge.key /etc/munge/
+# RUN sudo chmod 400 /etc/munge/munge.key
+# RUN sudo chown munge:munge /etc/munge/munge.key
 
 # lmod - environment module
 RUN apt-get install bc unzip lua5.3 liblua5.3-0 liblua5.3-dev lua-filesystem-dev lua-posix-dev -y
