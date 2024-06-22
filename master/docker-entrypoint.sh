@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#sudo sed -i "s/REPLACE_IT/CPUs=$(nproc)/g" /etc/slurm-llnl/slurm.conf
 sudo chmod 400 /etc/munge/munge.key
 sudo chown munge:munge /etc/munge/munge.key
 
@@ -9,6 +8,9 @@ sudo chown admin:admin -R /home/admin
 
 # start services
 sudo service munge start
+echo "---> MUNGE status ..."
+munge -n | unmunge | grep STATUS
+
 sudo service slurmctld start
 
 # source /etc/profile.d/lmod.sh

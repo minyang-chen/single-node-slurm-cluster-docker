@@ -41,8 +41,6 @@ RUN chown -R munge:munge /etc/munge
 #RUN chmod 600 /etc/slurm-llnl/slurmdbd.conf
 #RUN chown slurm:slurm /etc/slurm-llnl/slurmdbd.conf
 
-# RUN apt update -y && apt install libopenmpi-dev -y && pip3 install mpi4py
-
 RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y
 
 # lmod - environment module

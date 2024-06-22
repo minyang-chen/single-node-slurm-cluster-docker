@@ -24,7 +24,6 @@ services:
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
       - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
       - ./dbd/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro                  
     ports:
       - 7031:7031
     links:
@@ -41,7 +40,6 @@ services:
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
       - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
       - ./master/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                  
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro                  
     ports:
       - 6817:6817
       - 6819:6819
@@ -66,7 +64,6 @@ services:
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
       - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
       - ./node/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                          
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro                        
     ports:
       - 6818:6818
     links:
@@ -83,7 +80,6 @@ services:
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
       - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
       - ./node/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                                
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro                        
     links:
       - slurmmaster
   slurmnode3:
@@ -98,7 +94,6 @@ services:
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
       - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
       - ./node/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                                
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro                        
     links:
       - slurmmaster      
   slurmjupyter:
@@ -120,7 +115,6 @@ services:
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
       - ./etc/slurm-llnl/slurmdbd.conf:/etc/slurm-llnl/slurmdbd.conf                 
       - ./jupyter/docker-entrypoint.sh:/etc/slurm-llnl/docker-entrypoint.sh                                
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro                        
     ports:
       - 8888:8888
     links:

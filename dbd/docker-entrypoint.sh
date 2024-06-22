@@ -14,6 +14,9 @@ ls -all /etc/slurm-llnl/
 echo "---> Starting the MUNGE Authentication service (munged) ..."
 sudo service munge start
 
+echo "---> MUNGE status ..."
+munge -n | unmunge | grep STATUS
+
 source /etc/profile.d/lmod.sh
 module --version
 

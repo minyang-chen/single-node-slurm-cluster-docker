@@ -151,3 +151,7 @@ sudo /opt/spack/bin/spack install py-gpustat
 lscpu
 cd ..
 exit
+fish
+exit
+fish
+exit

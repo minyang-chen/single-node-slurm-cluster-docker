@@ -6,6 +6,9 @@ sudo chown munge:munge /etc/munge/munge.key
 # authentication
 sudo service munge restart
 
+echo "---> MUNGE status ..."
+munge -n | unmunge | grep STATUS
+
 # user home permission
 sudo mkdir -p /home/admin/.local
 sudo chown admin:admin -R /home/admin

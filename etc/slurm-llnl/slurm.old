@@ -26,10 +26,12 @@ SlurmctldHost=slurmmaster
 #MaxJobCount=5000
 #MaxStepCount=40000
 #MaxTasksPerNode=128
+MpiDefault=none
 #MpiParams=ports=#-#
 #PluginDir=
 #PlugStackConfig=
 #PrivateData=jobs
+ProctrackType=proctrack/linuxproc
 #ProctrackType=proctrack/cgroup
 #Prolog=
 #PrologFlags=
@@ -38,23 +40,26 @@ SlurmctldHost=slurmmaster
 #PropagateResourceLimits=
 #PropagateResourceLimitsExcept=
 #RebootProgram=
+ReturnToService=1
 #SallocDefaultCommand=
+SlurmctldPidFile=/var/run/slurmctld.pid
+SlurmctldPort=6817
+SlurmdPidFile=/var/run/slurmd.pid
+SlurmdPort=6818
+SlurmdSpoolDir=/var/spool/slurmd
 SlurmUser=root
 #SlurmdUser=root
-SlurmctldPort=6817
-SlurmdPort=6818
+#SlurmctldPort=6817
+#SlurmdPort=6818
 AuthType=auth/munge
-StateSaveLocation=/var/spool
-SwitchType=switch/none
-MpiDefault=none
-SlurmctldPidFile=/var/run/slurmctld.pid
-SlurmdPidFile=/var/run/slurmd.pid
-SlurmdSpoolDir=/var/spool/slurmd
-ProctrackType=proctrack/linuxproc
-ReturnToService=1
-#ReturnToService=1
+#SlurmctldPidFile=/var/run/slurmctld.pid
+#SlurmdPidFile=/var/run/slurmd.pid
+#SlurmdSpoolDir=/var/spool/slurmd
+#ProctrackType=proctrack/linuxproc
 #SrunEpilog=
 #SrunProlog=
+StateSaveLocation=/var/spool
+SwitchType=switch/none
 #TaskEpilog=
 #TaskPlugin=task/cgroup
 TaskPlugin=task/affinity
@@ -75,14 +80,14 @@ TaskPluginParam=Sched
 #GetEnvTimeout=2
 #HealthCheckInterval=0
 #HealthCheckProgram=
+KillWait=30
 #MessageTimeout=10
 #ResvOverRun=0
+MinJobAge=300
 #OverTimeLimit=0
 SlurmctldTimeout=300
 SlurmdTimeout=300
 InactiveLimit=0
-MinJobAge=300
-KillWait=30
 Waittime=0
 #UnkillableStepTimeout=60
 #VSizeFactor=0
@@ -93,10 +98,10 @@ Waittime=0
 #MaxMemPerCPU=0
 #SchedulerTimeSlice=30
 SchedulerType=sched/backfill
-#SelectType=select/cons_res
-#SelectTypeParameters=CR_Core
 SelectType=select/cons_res
-SelectTypeParameters=CR_Core_Memory,CR_CORE_DEFAULT_DIST_BLOCK,CR_ONE_TASK_PER_CORE
+SelectTypeParameters=CR_Core
+#SelectType=select/cons_res
+#SelectTypeParameters=CR_Core_Memory,CR_CORE_DEFAULT_DIST_BLOCK,CR_ONE_TASK_PER_CORE
 FastSchedule=1
 #SelectTypeParameters=CR_CPU_Memory
 #
@@ -129,9 +134,10 @@ JobCompLoc=/var/log/slurm/jobcomp.log
 # ACCOUNTING 
 #AccountingStorageEnforce=0
 JobAcctGatherType=jobacct_gather/linux
+#JobAcctGatherType=jobacct_gather/none
 #JobAcctGatherType=jobacct_gather/cgroup
 AccountingStoreJobComment=YES
-# JobAcctGatherFrequency=30
+JobAcctGatherFrequency=30
 AccountingStorageTRES=gres/gpu
 DebugFlags=CPU_Bind,gres
 # NEW
@@ -191,3 +197,5 @@ PartitionName=slurmcpu Nodes=slurmnode[2-10] Default=YES MaxTime=INFINITE State=
 # NodeName=slurmnode[1-10] Gres=gpu:nvidia:1 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=4096 State=UNKNOWN
 # NodeName=slurmnode1 Gres=gpu:nvidia:1 CPUs=6 Boards=1 SocketsPerBoard=1 CoresPerSocket=6 ThreadsPerCore=1 RealMemory=15996
 # NodeName=slurmnode8 Gres=gpu:nvidia:1 CPUs=6 Boards=1 SocketsPerBoard=1 CoresPerSocket=6 ThreadsPerCore=1 RealMemory=7944
+# NodeName=cise1 NodeAddr=10.18.19.191 CPUs=40 RealMemory=94887 Sockets=2 CoresPerSocket=10 ThreadsPerCore=2 State=UNKNOWN Gres=gpu:rtx4000:4
+# NodeName=cise2 NodeAddr=10.18.19.107 CPUs=40 RealMemory=94889 Sockets=2 CoresPerSocket=10 ThreadsPerCore=2 State=UNKNOWN Gres=gpu:rtx4000:4
