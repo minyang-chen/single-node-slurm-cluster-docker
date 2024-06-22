@@ -12,7 +12,7 @@ sudo chown admin:admin -R /home/admin
 sudo cd /home/admin
 
 # shell
-curl -sS https://starship.rs/install.sh | sh
+# curl -sS https://starship.rs/install.sh | sh
 eval "$(starship init bash)"
 
 # password: password

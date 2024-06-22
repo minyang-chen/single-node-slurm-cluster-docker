@@ -1,11 +1,11 @@
 #!/bin/sh
+
+#SBATCH --partition=slurmgpu
 #SBATCH --mem=4G
 #SBATCH --cpus-per-task=2
-## SBATCH --gpus=1
-## sbatch: error: Batch job submission failed: Requested GRES option unsupported by configured SelectType plugin
-#SBATCH --partition=slurmpar
-##SBATCH --gres=gpu:nvidia:1
 #SBATCH --gpus-per-node=1
+### SBATCH --gres=gpu:nvidia:1
+### SBATCH --gpus=1
 
 date
 echo $CUDA_VISIBLE_DEVICES

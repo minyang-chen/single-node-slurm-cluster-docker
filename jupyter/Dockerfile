@@ -1,5 +1,7 @@
 #FROM nvidia/cuda:11.0.3-base-ubuntu20.04
-FROM docker.io/nvidia/cuda:11.0.3-base-ubuntu20.04 
+#FROM docker.io/nvidia/cuda:11.0.3-base-ubuntu20.04 
+#FROM nvidia/cuda:11.3.1-devel-ubuntu20.04
+FROM nvidia/cuda:11.0.3-devel-ubuntu20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -46,6 +48,18 @@ RUN chown -R munge:munge /etc/munge
 # RUN sudo chmod 400 /etc/munge/munge.key                                       
 # RUN sudo chown munge:munge /etc/munge/munge.key
 
+## Environment Module --START
+# cd /tmp && sudo apt-get install curl tk8.6 tk8.6-dev -y 
+# curl -LJO https://github.com/cea-hpc/modules/releases/download/v5.4.0/modules-5.4.0.tar.gz && tar xfz modules-5.4.0.tar.gz
+# cd modules-5.4.0 && ./configure && make && sudo make install
+
+# sudo ln -s /usr/local/Modules/init/profile.sh /etc/profile.d/modules.sh
+# sudo ln -s /usr/local/Modules/init/profile.csh /etc/profile.d/modules.csh
+
+# module use /usr/local/modules-4.2.1/modulefiles
+# source /usr/local/Modules/init/bash
+## Environment Module --FINISH
+
 # lmod - environment module
 RUN apt-get install bc unzip lua5.3 liblua5.3-0 liblua5.3-dev lua-filesystem-dev lua-posix-dev -y
 RUN apt-get install tcl tcl8.6-dev libtcl8.6 -y
@@ -73,7 +87,6 @@ RUN echo "/opt/spack/share/spack/modules" >> /opt/focal/lmod/lmod/init/.modulesp
 RUN ln -s /opt/focal/lmod/lmod/init/profile /etc/profile.d/lmod.sh
 RUN ln -s /opt/focal/lmod/lmod/init/cshrc   /etc/profile.d/lmod.csh
 
-
 WORKDIR /home/admin
 
 EXPOSE 8888
@@ -81,13 +94,15 @@ EXPOSE 8888
 ENV USER admin
 ENV SHELL bash
 
+## Openmpi
 RUN apt install libopenmpi-dev -y && pip3 install mpi4py 
 
-##RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install iotop -y
+## Utilities
 RUN apt update -y && apt install net-tools -y && apt install iputils-ping -y && apt install iperf3 -y && apt install nano -y && apt install micro -y && apt install htop -y && apt install fish -y
 
+## Shell
 RUN curl -sLf https://spacevim.org/install.sh | bash
-#RUN curl -sLF https://starship.rs/install.sh | bash
+RUN curl -sLF https://starship.rs/install.sh | bash
 
 # Spack Installation
 RUN git clone --depth=100 --branch=releases/v0.22 https://github.com/spack/spack.git /opt/spack && cd /opt/spack/bin && ./spack install zlib
