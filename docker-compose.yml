@@ -12,13 +12,21 @@ services:
       - MARIADB_PASSWORD=slurm
       - MARIADB_ROOT_PASSWORD=dbroot-password
       - MARIADB_DATABASE=slurm
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8000:80
+    environment:
+      - PMA_ARBITRARY=1
+    links:
+      - mariadb      
   slurmdbd:
     image: slurm-dbd:latest
     hostname: slurmdbd
     user: slurm
     volumes:
       - ./workspace:/home/slurm
-      - ./etc/munge/munge.key:/etc/munge/munge.key
       - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
       - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
@@ -35,7 +43,6 @@ services:
     user: admin
     volumes:
       - ./workspace:/home/admin
-      - ./etc/munge/munge.key:/etc/munge/munge.key      
       - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
       - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
@@ -60,7 +67,6 @@ services:
               capabilities: [ gpu ]
     volumes:
       - ./workspace:/home/admin
-      - ./etc/munge/munge.key:/etc/munge/munge.key      
       - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
       - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
@@ -77,7 +83,6 @@ services:
     user: admin
     volumes:
       - ./workspace:/home/admin
-      - ./etc/munge/munge.key:/etc/munge/munge.key      
       - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
       - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
@@ -92,7 +97,6 @@ services:
     user: admin
     volumes:
       - ./workspace:/home/admin
-      - ./etc/munge/munge.key:/etc/munge/munge.key      
       - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
       - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
@@ -114,7 +118,6 @@ services:
               capabilities: [ gpu ]
     volumes:
       - ./workspace:/home/admin 
-      - ./etc/munge/munge.key:/etc/munge/munge.key      
       - ./etc/slurm-llnl/cgroup.conf:/etc/slurm-llnl/cgroup.conf            
       - ./etc/slurm-llnl/gres.conf:/etc/slurm-llnl/gres.conf            
       - ./etc/slurm-llnl/slurm.conf:/etc/slurm-llnl/slurm.conf            
