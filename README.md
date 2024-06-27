@@ -1,4 +1,4 @@
-# single-node-slurm-cluster-docker (ubuntu 20.04)
+# single-node-slurm-cluster-docker
 Fully Dockerized Slurm cluster with CPU/GPU partition and Jupyterlab HPC extensions for local PC or Server deployment using docker compose.
 
 It consist of the following services:
@@ -14,10 +14,18 @@ Optional:
 - NFS Server node (for shared storage )
 
 The slurm version is `v19.05.5`
+
+```
+admin@slurmmaster:~$ sinfo
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+slurmgpu     up   infinite      1   idle slurmnode[1]
+slurmcpu*    up   infinite      2   idle slurmnode[2,3]
+```
+
 <br />
 
 ## Pre-requisites 
-1. Supported OS (tested on ubuntu 20+, should works on other platform with docker support)
+1. Supported OS (tested on ubuntu 20.04+, should work on other platform with docker/nvidia-container-toolkit support)
 
 2. Host PC/VM with docker installed
 ```
@@ -93,6 +101,22 @@ hostpc$ docker compose restart slurmdbd slurmmaster
 ```
 
 ## Manage the Cluster
+
+Check cluster status in jupyterlab:
+http://localhost:8888 default password (password)
+
+note: change hashed password on jupyter/docker-entrypoint.sh
+
+or check cluster status in any other cluster node:
+```
+hostpc$ docker compose exec -it slurmdbd bash
+```
+```
+admin@slurmmaster:~$ sinfo
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+slurmgpu     up   infinite      1   idle slurmnode[1]
+slurmcpu*    up   infinite      2   idle slurmnode[2,3]
+```
 
 To start the cluster in daemon mode:
 
