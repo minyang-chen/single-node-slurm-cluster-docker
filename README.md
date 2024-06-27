@@ -1,5 +1,9 @@
 # single-node-slurm-cluster-docker
-Fully Dockerized Slurm cluster with CPU/GPU partition and Jupyterlab HPC extensions for local PC or Server deployment using docker compose.
+<div align="center">
+![slurm-docker-jupyterlab-logo](resources/slurm-docker-jupyter-logo.png)
+Fully Dockerized Slurm cluster with CPU/GPU partition and Jupyterlab HPC extensions for local PC or Server deployment using docker compose and more.
+</div>
+
 
 It consist of the following services:
 - MariaDB node (for storage of accounting data)
