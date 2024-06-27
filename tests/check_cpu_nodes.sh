@@ -1,0 +1,1 @@
+srun -p slurmcpu hostname

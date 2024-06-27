@@ -1,4 +1,5 @@
 # Compiled Lua sources
+*.ipynb_checkpoints
 workspace
 data
 luac.out
