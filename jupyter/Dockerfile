@@ -39,7 +39,7 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt update -y && apt install nodejs -y && npm install -g configurable-http-proxy
 
 ## jupyterlab and slurm extension
-RUN pip3 install jupyterlab==4.2.2 && pip3 install jupyterlab_slurm && pip3 install jupyterlab_theme_solarized_dark
+RUN pip3 install jupyterlab==4.2.3 && pip3 install jupyterlab_slurm && pip3 install jupyterlab_theme_solarized_dark
 
 ## Jupyter Lmod/Tmod Extensions
 RUN pip install jupyterlmod && jupyter labextension disable @jupyterlab/server-proxy && jupyter labextension disable jupyterlab-server-proxy

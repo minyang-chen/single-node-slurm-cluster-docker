@@ -1,50 +1,70 @@
 # single-node-slurm-cluster-docker (ubuntu 20.04)
-dockerized single-node slurm cluster with CPU/GPU partition
+Fully Dockerized Slurm cluster with CPU/GPU partition deployed in a local PC or Server using docker compose.
 
-## Scheduling resources at the per GPU level
+It consist of the following services:
+- MariaDB node (for storage of accounting data)
+- phpmyadmin node ( for web sql client)
+- Jupyterlab node (notebook, slurm client)
+- Storage node (munge, slurmdbd)
+- Master node (munge, slurmctld-controller)
+- compute GPU nodes x1 (munge, slurmd, nvidia-gpu)
+- compute CPU nodes x2 (munge, slurmd)
 
-Slurm can be made aware of GPUs as a consumable resource to allow jobs to request any number of GPUs.
+Optional:
+- NFS Server node (for shared storage )
 
-This feature requires job accounting to be enabled first; for more info, see: https://slurm.schedmd.com/accounting.html
+The slurm version is `v19.05.5`
+<br />
 
-The Slurm configuration file needs parameters set to enable cgroups for resource management and GPU resource scheduling:
+## Related Projects
 
-slurm.conf:
-
-## Enable cgroup
-```
-cat /etc/default/grub
-
-*** update line with cgroup value below ***
-GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"
-$ update-grub
-```
-
-## General
-```
-ProctrackType=proctrack/cgroup
-TaskPlugin=task/cgroup
-```
-
-## Scheduling
-```
-SelectType=select/cons_res
-SelectTypeParameters=CR_Core_Memory
-```
-
-## Logging and Accounting
-```
-AccountingStorageTRES=gres/gpu
-DebugFlags=CPU_Bind,gres                # show detailed information in Slurm logs about GPU binding and affinity
-JobAcctGatherType=jobacct_gather/cgroup
-```
-
-## multi-node slurm cluster docker
+### multi-node slurm cluster docker
 https://github.com/minyang-chen/multi-nodes-slurm-cluster-docker/tree/main
 
+### slurm job samples
+https://github.com/minyang-chen/slurm-job-samples
 
-## map host cgroup to container
+
+# How to deploy
+
+Clone the repository
+
 ```
-volumes:
-        - /sys/fs/cgroup:/sys/fs/cgroup:ro       
+hostpc$ git clone https://github.com/minyang-chen/single-node-slurm-cluster-docker.git
+hostpc$ cd single-node-slurm-cluster-docker
 ```
+
+Next, build the node image.
+```
+hostpc$ ./build_images.sh
+```
+
+Start the cluster
+
+```
+hostpc$ ./1_create_slurm_cluster.sh
+```
+
+To access the storage node:
+
+```
+hostpc$ docker compose exec -it slurmdbd bash
+```
+
+register the cluster:
+```
+slumdbd$ /usr/bin/sacctmgr add cluster name=clusterlab 
+
+expected confirmation message (Y/N) enter Y
+next check cluster registration status with accounting manager command
+
+slumdbd$ sacctmgr 
+
+```
+
+next, restart master and storage node:
+```
+hostpc$ docker compose restart slurmdbd slurmmaster
+```
+
+NOTE: the first running of Slurm might take up to 1-3 minute because a new MariaDB database initiation procedure and slurm master restart to pick up all nodes joining the cluster.
