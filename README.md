@@ -1,4 +1,4 @@
-# single-node-slurm-cluster-docker
+# single-node-slurm-cluster-docker (Ubuntu)
 ![slurm-docker-jupyterlab-logo](resources/slurm-docker-jupyter-logo.png)
 Fully Dockerized Slurm cluster with CPU/GPU partition and Jupyterlab HPC extensions for local PC or Server deployment using docker compose and more.
 <div align="center">
@@ -196,7 +196,8 @@ see screenshot here:
 
 #### Credits
 other projects that inspired this work 
-[slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)
+rockylinux: [slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)
+CentOS: [slurm-in-docker](https://github.com/SciDAS/slurm-in-docker)
 
 
 
