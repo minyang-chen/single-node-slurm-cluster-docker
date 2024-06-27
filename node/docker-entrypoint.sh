@@ -37,4 +37,12 @@ module --version
 module use ~/.local/easybuild/modules/
 module avail
 
+# show node info
+slurmd -V
+slurmd -C
+slurmd -G
+
+# show cluster info
+sinfo
+
 tail -f /dev/null
