@@ -161,3 +161,43 @@ To Add more nodes on the cluster, update docker compose section:
 ```
 
 NOTE: the first running of Slurm might take up to 1-3 minute because a new MariaDB database initiation procedure and slurm master restart to pick up all nodes joining the cluster.
+
+## Update Cluster Configuration 
+
+#### etc/slurm-llnl/slurm.conf
+this is the main cluster configuration file 
+
+#### etc/slurm-llnl/gres.conf
+this is the nodes GPU configuration file 
+
+#### etc/slurm-llnl/slurmdbd.conf
+this is the cluster accounting configuration file 
+
+#### etc/slurm-llnl/slurm.no_tres
+this is the main cluster configuration file without tres enablement 
+
+
+## Using Jupyterlab Slurm Extensions
+
+#### HPC-Tools (jupyterl_slurm)
+GUI extension that support management of slurm jobs submission and status monitoring 
+see screenshots here:
+![HPC-Tools](resources/slurm-jupyterlab-ext-hpc-tools.png)
+![Submit Job](resources/slurm-jupyterlab-hpc-tools-submit_batch_job.png)
+![Check Queue](resources/slurm-jupyterlab-job-queue.png)
+
+#### Module Softwares (jupyterlmod)
+GUI extension that support viewing of available and installed modules in the cluster
+see screenshot here:
+![Modules](resources/slurm-jupyterlab-ext-modules.png)
+
+#### Credits
+other projects that inspired this work 
+[slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)
+
+
+
+
+
+
+
