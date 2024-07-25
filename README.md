@@ -196,6 +196,40 @@ GUI extension that support viewing of available and installed modules in the clu
 see screenshot here:
 ![Modules](resources/slurm-jupyterlab-ext-modules.png)
 
+#### Enabling Virtualization and GPU Passthrough
+On many machines, virtualization and GPU passthrough are not enabled by default. Follow these directions so that a virtual DeepOps cluster can start on your host machine with GPU access on the VMs.
+
+**BIOS and Bootloader Changes**
+To support KVM, we need GPU pass through. To enable GPU pass through, we need to enable VFIO support in BIOS and Bootloader.
+
+**BIOS Changes**
+Enable BIOS settings: Intel VT-d and Intel VT-x
+Enable BIOS support for large-BAR1 GPUs: 'MMIO above 4G' or 'Above 4G encoding', etc.
+VT-x: Intel RC Setup -> Processor Configuration -> VMX
+VT-d: Intel RC Setup -> IIO Configuration -> VT-d
+MMIO above 4G: Advanced -> PCI Subsystem Setting -> Above 4G Encoding
+MMIO above 4G: verify virtualization support is enabled in the BIOS, by looking for vmx for Intel or svm for AMD processors...
+$ grep -oE 'svm|vmx' /proc/cpuinfo | uniq
+vmx
+
+**Bootloader Changes**
+Add components necessary to load VFIO (Virtual Function I/O). VFIO is required to pass full devices through to a virtual machine, so that Ubuntu loads everything it needs. Edit and add the following to /etc/modules file:
+- pci_stub
+- vfio
+- vfio_iommu_type1
+- vfio_pci
+- kvm
+- kvm_intel
+Next, need Ubuntu to load IOMMU properly. Edit /etc/default/grub and modify "GRUB_CMDLINE_LINUX_DEFAULT", by adding "intel_iommu=on" to enable IOMMU. May also need to add "vfio_iommu_type1.allow_unsafe_interrupts=1" if interrupt remapping should be enabled. Post these changes, the GRUB command line should look like this:
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash intel_iommu=on vfio_iommu_type1.allow_unsafe_interrupts=1
+iommu=pt"
+
+**Enable the vfio-pci driver on boot:**
+$ echo vfio-pci | sudo tee /etc/modules-load.d/vfio-pci.conf
+```
+Run sudo update-grub to update GRUB with the new settings and reboot the system.
+```
+
 #### Contribution, Bugs fixes and Support
 Welcome, please create an issue.
 
