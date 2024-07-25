@@ -194,8 +194,8 @@ GUI extension that support viewing of available and installed modules in the clu
 see screenshot here:
 ![Modules](resources/slurm-jupyterlab-ext-modules.png)
 
-#### Credits
-other projects that inspired this work 
+#### Acknowledgements
+Inspired by works from other Linux Distribution 
 rockylinux: [slurm-docker-cluster](https://github.com/giovtorres/slurm-docker-cluster)
 CentOS: [slurm-in-docker](https://github.com/SciDAS/slurm-in-docker)
 
