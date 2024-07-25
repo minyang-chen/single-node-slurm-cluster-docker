@@ -52,6 +52,8 @@ cat /etc/docker/daemon.json
 
 sudo systemctl restart docker
 ```
+## Status
+On-going developments and improvement works
 
 ## Related Projects
 
