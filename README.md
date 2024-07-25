@@ -56,7 +56,7 @@ sudo systemctl restart docker
 On-going developments and improvement works
 
 ## Architecture 
-![single-node-slurm-cluster-in-docker](resources/resources/slum_cluster_single_node1.png)
+![single-node-slurm-cluster-in-docker](resources/slum_cluster_single_node1.png)
 
 ## Related Projects
 
