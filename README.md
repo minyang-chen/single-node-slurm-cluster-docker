@@ -55,6 +55,9 @@ sudo systemctl restart docker
 ## Status
 On-going developments and improvement works
 
+## Architecture 
+![single-node-slurm-cluster-in-docker](resources/resources/slum_cluster_single_node1.png)
+
 ## Related Projects
 
 #### multi-node slurm cluster docker
